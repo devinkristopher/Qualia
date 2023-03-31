@@ -1,11 +1,12 @@
 # Qualia
-Qualia is an open-source UX library for HCI and HMI solutions. Aside from offering a widget toolkit, Qualia inclusively offers integrated tools for interfacing with various devices, sensors, and critical components.  For example, CPU usage percentage will be an available metric in the near future.  Because Qualia is open-source, these tools can be optimized for your application.
-![A demonstration of various Qualia components.](https://i.imgur.com/en8rNpp.png)
+An open-source Java UI library featuring HCI/HMI elements and tools. Written in Java, it is primarily based on the existing AWT and Swing libraries.
+![A demonstration of various Qualia components.](https://imgur.com/gl6moez)
 
 # GaugePanel
-GaugePanel is a radial gauge that offers a fill level, text value, and classic needle for a metric.  It offers a redline zone that is always visible from the fill line.  Additionally, it can present a separate metric inside the frame.  One example of this usage is on modern vehicles where the instrument cluster shows the speedometer and the tachometer on the same display unit.
-The GaugePanel is designed to be as scalable as possible to accomodate and adapt to any parent that can contain a JPanel.  Because the GaugePanel is drawn in ratios and proportions, it will automatically resize and scale with its parent container.
-![A demonstration of a resized GaugePanel.](https://i.imgur.com/aHeggZv.png)
+The GaugePanel is a radial gauge that offers a classic needle, a corresponding outer fill level, corresponding digital value off-gauge, and a secondary digital value on the top center of the gauge.  It offers a redline zone that is always visible from the fill line.  One example of this usage is on modern vehicles where the instrument cluster shows the speedometer and the tachometer on the same display unit.
+The GaugePanel is designed to accomodate and adapt to any parent that can contain a JPanel.  Because the GaugePanel is drawn in ratios and proportions, it will automatically resize and scale with its parent container.
+![A demonstration of a GaugePanel.](https://imgur.com/lStKij3)
+![Another demonstration of a GaugePanel.](https://imgur.com/4PwZifj)
 
 # Known Issues:
 - General: CPU consumption due to repainting with Graphics2D.
