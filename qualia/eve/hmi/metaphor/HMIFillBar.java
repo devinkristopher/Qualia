@@ -9,7 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-class HMIFillBar extends JPanel {
+class HMIFillBar extends Display {
     private double value;
     private final double MENISCUS_ARC_SIZE = 15;
     private Color frameColorStart;
@@ -65,7 +65,7 @@ class HMIFillBar extends JPanel {
     }
 
     // X, y, width, height, arc
-    void calculateScreenSpace() {
+    public void getScreenSpace() {
         frameX = getWidth() / 3;
         frameY = getHeight() / 10;
         frameWidth = getWidth() * .3;
@@ -110,11 +110,11 @@ class HMIFillBar extends JPanel {
     protected void paintComponent(Graphics gr) {
         setValue(90);
         Graphics2D g = createGraphics2D(gr);
-        calculateScreenSpace();
+        getScreenSpace();
         drawFrame(g);
         fillFrame(g);
         drawLabel(g);
         drawBorder(g);
-        g.dispose();
+        super.cleanUp(g);
     }
 }

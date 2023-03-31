@@ -15,11 +15,11 @@ import java.awt.*;
 import java.util.*;
 import java.text.*;
 
-public class Sacramento extends JPanel implements Runnable {
+public class Sacramento extends Display implements Runnable {
   private final int PANEL_WIDTH;
   private final int PANEL_HEIGHT;
   private final long THREAD_TIMER_MILLISECONDS = 1000;
-  private final Color BACKGROUND_COLOR;
+  private final Color BACKGROUND_COLOR = new Color(28, 28, 30);
   private final int THREAD_PRIORITY;
   private int currentHours;
   private int currentMinutes;
@@ -32,11 +32,9 @@ public class Sacramento extends JPanel implements Runnable {
   Sacramento(int width, int height, int threadPriority) {
     this.PANEL_WIDTH = width;
     this.PANEL_HEIGHT = height;
-    
     // minimum priority is 1, maximum priority is 10
     this.THREAD_PRIORITY = threadPriority;
     setPreferredSize(new Dimension(width, height));
-    BACKGROUND_COLOR = new Color(28, 28, 30);
     setBackground(BACKGROUND_COLOR);
   }
 
@@ -60,18 +58,22 @@ public class Sacramento extends JPanel implements Runnable {
     isStopped = true;
   }
 
+  public void setTime(Calendar cal) {
+    currentHours = cal.get(Calendar.HOUR_OF_DAY);
+    // converts 24-hour time to 12-hour time
+    if (currentHours > 12) {
+      currentHours -= 12;
+    }
+    currentMinutes = cal.get(Calendar.MINUTE);
+    currentSeconds = cal.get(Calendar.SECOND);
+  }
+
+
   public void run() {
     try {
       while (true) {
         Calendar cal = Calendar.getInstance();
-        currentHours = cal.get(Calendar.HOUR_OF_DAY);
-        if (currentHours > 12)
-          currentHours -= 12;
-        currentMinutes = cal.get(Calendar.MINUTE);
-        currentSeconds = cal.get(Calendar.SECOND);
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
-        Date date = cal.getTime();
-        // Now the thread checks to see if it should suspend itself
+        setTime(cal);
         if (isStopped) {
           synchronized (this) {
             while (isStopped) {
@@ -92,11 +94,6 @@ public class Sacramento extends JPanel implements Runnable {
     int x = (int)(radius * Math.cos(angle));
     int y = (int)(radius * Math.sin(angle));
     Graphics2D g2 = (Graphics2D)g;
-    /*
-     * This is going to set antialiasing ON. Depending on the runtime machine,
-     * enviroment, and circumstances, you may need to turn antialiasing off to save
-     * resources.
-     */
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setPaint(new Color(244, 182, 66));
     g2.setStroke(new BasicStroke(2.0f));
@@ -114,9 +111,7 @@ public class Sacramento extends JPanel implements Runnable {
 
   }
 
-  public void paintComponent(Graphics g) {
-    Graphics2D g2 = (Graphics2D) g;
-    super.paintComponent(g);
+  void fillBlade(Graphics2D g2, Graphics g) {
     g.setColor(Color.white);
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -124,10 +119,16 @@ public class Sacramento extends JPanel implements Runnable {
     g2.setColor(new Color(242, 242, 247));
     g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, new float[] { 1, 6 }, 3));
     g2.drawOval((int) (PANEL_WIDTH / 2 - (PANEL_WIDTH * .5)), (int) (PANEL_HEIGHT / 2 - (PANEL_HEIGHT * .5)), (int) (PANEL_WIDTH), (int) (PANEL_HEIGHT));
+  }
+
+  public void paintComponent(Graphics g) {
+    Graphics2D g2 = (Graphics2D) g;
+    super.paintComponent(g);
+    fillBlade(g2, g);
     drawHands(2 * Math.PI * currentHours / 12, PANEL_WIDTH / 5, g);
     drawHands(2 * Math.PI * currentMinutes / 60, PANEL_WIDTH / 3, g);
     drawSecondsHand(2 * Math.PI * currentSeconds / 60, PANEL_WIDTH / 2, g);
-    g.setColor(Color.white);
+    super.cleanUp(g2);
   }
 
 }

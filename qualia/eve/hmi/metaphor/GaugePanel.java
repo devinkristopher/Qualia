@@ -30,7 +30,7 @@ import java.awt.Point;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class GaugePanel extends JPanel {
+class GaugePanel extends Display {
   // the MPH value
   private double mphValue = 0.0;
   // the minimum angle in radians
@@ -69,6 +69,8 @@ class GaugePanel extends JPanel {
   private String speedometer;
   private double speedometerOffset;
   private double speedometerBaseline;
+  private Font tachStringFont;
+  private Font stringFont;
 
   // This method sets the minimum and maximum angles for the needle.
   void setAngles(double minAngleRad, double maxAngleRad) {
@@ -217,8 +219,9 @@ class GaugePanel extends JPanel {
   }
 
   void drawTachometerValue(Graphics2D g, Font stringFont) {
-    g.setFont(stringFont);
-    g.drawString(value * 8000 + " RPM", getWidth() / 2, (int) (y0 - length * .6));
+    g.setFont(tachStringFont);
+    String strValue = String.valueOf(value * 8000);
+    g.drawString(strValue.substring(0, strValue.length() - 2) + " RPM", getWidth() / 2, (int) (y0 + length));
   }
 
   static void drawGaugeComponents(Graphics2D g, Arc2D redLine, Arc2D fillRPM) {
@@ -267,12 +270,12 @@ class GaugePanel extends JPanel {
     Line2D needle = createNeedle(g);
     g.draw(needle);
 
-    Font stringFont = new Font("SansSerif", Font.BOLD, fontSize);
-
+    stringFont = new Font("SansSerif", Font.BOLD, fontSize);
+    tachStringFont = new Font("SansSerif", Font.BOLD, fontSize / 2);
     drawSpeedometerValue(g, stringFont);
     g.setColor(Color.RED);
-    drawTachometerValue(g, stringFont);
-
+    drawTachometerValue(g, tachStringFont);
+    
   }
 
 }
