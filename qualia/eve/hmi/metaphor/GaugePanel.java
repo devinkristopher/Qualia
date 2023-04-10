@@ -231,6 +231,7 @@ class GaugePanel extends Display {
     g.setColor(new Color(15, 220, 15));
     g.draw(fillRPM);
     g.fill(fillRPM);
+    
   }
 
   void calculateScreenSpace() {

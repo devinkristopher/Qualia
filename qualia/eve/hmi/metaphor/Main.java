@@ -25,7 +25,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class GaugeTest {
+public class Main {
+  static double mphValue;
+  static double minAngle;
+  static double maxAngle;
+  static double minValue;
+  static double maxValue;
+  static double value;
+  static double fillValue;
+
   public static void main(String[] args) throws IOException {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
@@ -43,10 +51,6 @@ public class GaugeTest {
     GaugePanel gaugePanel = new GaugePanel();
     f.getContentPane().add(gaugePanel, BorderLayout.CENTER);
 
-    JPanel controlPanel = createControlPanel(gaugePanel);
-    f.getContentPane().add(controlPanel, BorderLayout.EAST);
-    // f.setUndecorated(true);
-
     JPanel topBar = new JPanel();
 
   
@@ -62,6 +66,10 @@ public class GaugeTest {
     topBar.add(graph);
     sacramento.start();
     f.add(topBar, BorderLayout.NORTH);
+
+    JPanel controlPanel = createControlPanel(gaugePanel, fillBar);
+    f.getContentPane().add(controlPanel, BorderLayout.EAST);
+    // f.setUndecorated(true);
 
     ////////////////////////////////////////////
 
@@ -96,58 +104,54 @@ public class GaugeTest {
 
   
 
-  static JPanel createControlPanel(final GaugePanel gaugePanel) {
+  static JPanel createControlPanel(final GaugePanel gaugePanel, final HMIFillBar fillBar) {
     final JSlider mphSlider = new JSlider(0, 160, 0);
-    final JSlider minAngleSlider = new JSlider(0, 100, 0);
-    final JSlider maxAngleSlider = new JSlider(0, 100, 0);
-    final JSlider minValueSlider = new JSlider(0, 100, 0);
-    final JSlider maxValueSlider = new JSlider(0, 100, 0);
     final JSlider valueSlider = new JSlider(0, 100, 0);
+    final JSlider fillSlider = new JSlider(0, 100, 0);
+    fillValue = fillSlider.getValue();
+    mphValue = mphSlider.getValue();
+    minAngle = 0 / 100.0 * Math.PI * 2;
+    maxAngle = 0 / 100.0 * Math.PI * 2;
+    minValue = 0 / 100.0;
+    maxValue = 100 / 100.0;
+    value = valueSlider.getValue() / 100.0;
 
     JPanel controlPanel = new JPanel(new GridLayout(0, 2));
     controlPanel.add(new JLabel("MPH"));
     controlPanel.add(mphSlider);
-    controlPanel.add(new JLabel("minAngle"));
-    controlPanel.add(minAngleSlider);
-    controlPanel.add(new JLabel("maxAngle"));
-    controlPanel.add(maxAngleSlider);
-    controlPanel.add(new JLabel("minValue"));
-    controlPanel.add(minValueSlider);
-    controlPanel.add(new JLabel("maxValue"));
-    controlPanel.add(maxValueSlider);
     controlPanel.add(new JLabel("value"));
     controlPanel.add(valueSlider);
+    controlPanel.add(new JLabel("Fill Value"));
+    controlPanel.add(fillSlider);
 
     ChangeListener changeListener = new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent e) {
-        double mphValue = mphSlider.getValue();
-        double minAngle = minAngleSlider.getValue() / 100.0 * Math.PI * 2;
-        double maxAngle = maxAngleSlider.getValue() / 100.0 * Math.PI * 2;
-        double minValue = minValueSlider.getValue() / 100.0;
-        double maxValue = maxValueSlider.getValue() / 100.0;
-        double value = valueSlider.getValue() / 100.0;
+        mphValue = mphSlider.getValue();
+        minAngle = 0 / 100.0 * Math.PI * 2;
+        maxAngle = 0 / 100.0 * Math.PI * 2;
+        minValue = 0 / 100.0;
+        maxValue = 100 / 100.0;
+        value = valueSlider.getValue() / 100.0;
+        fillValue = fillSlider.getValue();
 
         gaugePanel.setSpeed(mphValue);
         gaugePanel.setAngles(minAngle, maxAngle);
         gaugePanel.setRange(minValue, maxValue);
         gaugePanel.setValue(value);
+        fillBar.setValue(fillValue);
+        System.out.println("fill bar value: " + fillValue);
       }
     };
     mphSlider.addChangeListener(changeListener);
-    minAngleSlider.addChangeListener(changeListener);
-    maxAngleSlider.addChangeListener(changeListener);
-    minValueSlider.addChangeListener(changeListener);
-    maxValueSlider.addChangeListener(changeListener);
     valueSlider.addChangeListener(changeListener);
-
+    fillSlider.addChangeListener(changeListener);
     mphSlider.setValue(0);
-    minAngleSlider.setValue(0);
-    maxAngleSlider.setValue(0);
-    minValueSlider.setValue(0);
-    maxValueSlider.setValue(100);
     valueSlider.setValue(0);
-
+    gaugePanel.setSpeed(mphValue);
+    gaugePanel.setAngles(minAngle, maxAngle);
+    gaugePanel.setRange(minValue, maxValue);
+    gaugePanel.setValue(value);
     return controlPanel;
   }
 

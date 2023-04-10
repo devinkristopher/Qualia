@@ -71,7 +71,7 @@ class HMIFillBar extends Display {
         frameWidth = getWidth() * .3;
         frameHeight = getHeight() * .8;
         fillHeight = frameHeight * (value / 100);
-        fillY = frameY + (100 - value);
+        fillY = (100 - value);
     }
 
     void drawFrame(Graphics2D g) {
@@ -85,8 +85,15 @@ class HMIFillBar extends Display {
 
     void fillFrame(Graphics2D g) {
         g.setPaint(fillColor);
-        g.fill(new RoundRectangle2D.Double(frameX, fillY, frameWidth, fillHeight, MENISCUS_ARC_SIZE,
-                MENISCUS_ARC_SIZE));
+        g.fill(new RoundRectangle2D.Double(
+            frameX,
+            frameY + frameHeight - fillHeight,
+            frameWidth,
+            fillHeight,
+            MENISCUS_ARC_SIZE,
+            MENISCUS_ARC_SIZE)
+        );
+        System.out.println("filly: " + fillY);
 
     }
 
@@ -108,7 +115,7 @@ class HMIFillBar extends Display {
 
     @Override
     protected void paintComponent(Graphics gr) {
-        setValue(90);
+        System.out.println(value);
         Graphics2D g = createGraphics2D(gr);
         getScreenSpace();
         drawFrame(g);
