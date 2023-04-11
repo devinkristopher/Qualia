@@ -1,0 +1,13 @@
+{
+    "appName": "CPUService",
+    "packageName": "com.qualia.eve.hmi.hmi-utils.CPUService.java",
+    "title": "Updated CPU Value",
+    "message": "Your CPU is running at 80% capacity.",
+    "systemTime": 1465907782096,
+    "scheduledTime": 1465907782096,
+    "priority": 2,
+    "options": [
+        {"displayText": "OK", "exitCode": 0},
+        {"displayText": "Report", "exitCode": -1}
+    ]
+}

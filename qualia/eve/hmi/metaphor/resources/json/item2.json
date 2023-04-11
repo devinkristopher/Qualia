@@ -1,0 +1,13 @@
+{
+    "appName": "OBDService",
+    "packageName": "com.qualia.eve.hmi.hmi-utils.OBDService.java",
+    "title": "Redline Alert",
+    "message": "6502 RPM at 00:00 PM.",
+    "systemTime": 1465907782096,
+    "scheduledTime": 1465907782096,
+    "priority": 1,
+    "options": [
+        {"displayText": "OK", "exitCode": 0},
+        {"displayText": "Report", "exitCode": -1}
+    ]
+}

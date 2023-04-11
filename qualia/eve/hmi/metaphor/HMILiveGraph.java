@@ -40,8 +40,6 @@ class HMILiveGraph extends Display {
     frameY = 0;
     frameWidth = getWidth() - (getWidth() * .2);
     frameHeight = getHeight() - (getHeight() * .2);
-    frameArcWidth = 15;
-    frameArcHeight = 15;
   }
 
   void fillBlade(Graphics2D g) {
@@ -67,13 +65,12 @@ class HMILiveGraph extends Display {
     yValues.add(2);
     yValues.add(4);
     yValues.add(1);
-    yValues.add(3);
     yValues.add(5);
+    yValues.add(3);
   }
 
   void drawLine(Graphics2D g, int graphX, int graphY) {
     g.setColor(Color.GREEN);
-    int numPoints = 5;
     for (int i = 0; i < 6; i++) {
       int nextX = xValues.get(i);
       int nextY = yValues.get(i);

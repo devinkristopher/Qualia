@@ -1,0 +1,12 @@
+{
+    "appName": "TestDrive",
+    "packageName": "com.qualia.eve.hmi.hmi-utils.TestDrive.java",
+    "title": "Application launched",
+    "message": "",
+    "systemTime": 1465907782023,
+    "scheduledTime": 1465907782023,
+    "priority": 3,
+    "options": [
+        {"displayText": "OK", "exitCode": 0}
+    ]
+}

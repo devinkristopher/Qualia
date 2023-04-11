@@ -27,6 +27,10 @@ public class Sacramento extends Display implements Runnable {
   private double clockAngle;
   Thread timerThread = null;
   boolean isStopped;
+  double frameX;
+  double frameY;
+  double frameWidth;
+  double frameHeight;
 
 
   Sacramento(int width, int height, int threadPriority) {
@@ -97,7 +101,7 @@ public class Sacramento extends Display implements Runnable {
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setPaint(new Color(244, 182, 66));
     g2.setStroke(new BasicStroke(2.0f));
-    g.drawLine(PANEL_WIDTH / 2, PANEL_HEIGHT / 2, PANEL_WIDTH / 2 + x, PANEL_HEIGHT / 2 + y);
+    g.drawLine((int)frameWidth / 2, PANEL_HEIGHT / 2, (int)frameWidth / 2 + x, PANEL_HEIGHT / 2 + y);
   }
 
   void drawHands(double angle, int radius, Graphics g) {
@@ -107,19 +111,27 @@ public class Sacramento extends Display implements Runnable {
     int y = (int)(radius * Math.sin(angle));
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-    g.drawLine(PANEL_WIDTH / 2, PANEL_HEIGHT / 2, PANEL_WIDTH / 2 + x, PANEL_HEIGHT / 2 + y);
+    g.drawLine((int)frameWidth / 2, PANEL_HEIGHT / 2, (int)(frameWidth / 2 + x), PANEL_HEIGHT / 2 + y);
 
   }
 
   void fillBlade(Graphics2D g2, Graphics g) {
+    getScreenSpace();
     g.setColor(Color.white);
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-    g2.drawOval((int) (PANEL_WIDTH / 2 - (PANEL_WIDTH * .5)), (int) (PANEL_HEIGHT / 2 - (PANEL_HEIGHT * .5)), (int) (PANEL_WIDTH), (int) (PANEL_HEIGHT));
+    g2.drawOval((int) (frameX), 0, (int) (PANEL_WIDTH), (int) (PANEL_HEIGHT));
     g2.setColor(new Color(242, 242, 247));
     g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, new float[] { 1, 6 }, 3));
-    g2.drawOval((int) (PANEL_WIDTH / 2 - (PANEL_WIDTH * .5)), (int) (PANEL_HEIGHT / 2 - (PANEL_HEIGHT * .5)), (int) (PANEL_WIDTH), (int) (PANEL_HEIGHT));
+    g2.drawOval((int) (frameX), (int) (PANEL_HEIGHT / 2 - (PANEL_HEIGHT * .5)), (int) (PANEL_WIDTH), (int) (PANEL_HEIGHT));
   }
+
+  public void getScreenSpace() {
+    frameWidth = getWidth();
+    frameHeight = getHeight();
+    frameX = (int) ((getWidth() / 2) - (frameHeight * .5));
+    frameY = 0;
+}
 
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;

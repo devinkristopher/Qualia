@@ -140,7 +140,6 @@ public class Main {
         gaugePanel.setRange(minValue, maxValue);
         gaugePanel.setValue(value);
         fillBar.setValue(fillValue);
-        System.out.println("fill bar value: " + fillValue);
       }
     };
     mphSlider.addChangeListener(changeListener);

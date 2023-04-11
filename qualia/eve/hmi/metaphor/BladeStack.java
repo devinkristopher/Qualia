@@ -56,7 +56,7 @@ class BladeStack extends Display {
         frameY = getHeight() / 10;
         frameWidth = getWidth() * .7;
         frameHeight = getHeight() * .3;
-        frameArcWidth = 15; 
+        frameArcWidth = 15;
         frameArcHeight = 15;
     }
 
@@ -68,16 +68,35 @@ class BladeStack extends Display {
         g.draw(new RoundRectangle2D.Double(frameX, frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
         g.setPaint(frameFillGradient);
         g.fill(new RoundRectangle2D.Double(frameX, frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+
+        g.setColor(Color.GRAY);
+        g.draw(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+        g.setPaint(frameFillGradient);
+        g.fill(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+
+        g.setColor(Color.GRAY);
+        g.draw(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY + frameHeight + frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+        g.setPaint(frameFillGradient);
+        g.fill(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY + frameHeight + frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+
     }
 
     void fillVolume(Graphics2D g) {
         value = 90;
         double fillY = frameY;
         double fillHeight = frameHeight - (100 - value);
-        Color fillColor = new Color(0, 255, 12);
+        Color fillColor = new Color(242, 242, 247);
+        Color fillColor1 = new Color(50, 215, 75);
         g.setPaint(fillColor);
         g.fill(new RoundRectangle2D.Double(frameX, frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
-        g.fill(new RoundRectangle2D.Double(frameX, frameY, frameWidth, frameHeight, frameArcWidth, frameArcHeight));
+        Color fillColor2 = new Color(255, 149, 0);
+        g.setPaint(fillColor);
+        g.fill(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY, frameWidth, frameHeight,
+                frameArcWidth, frameArcHeight));
+        Color fillColor3 = new Color(255, 59, 48);
+        g.setPaint(fillColor);
+        g.fill(new RoundRectangle2D.Double(frameX, frameY + frameHeight + frameY + frameHeight + frameY, frameWidth,
+                frameHeight, frameArcWidth, frameArcHeight));
     }
 
     void drawLabel(Graphics2D g) {
@@ -98,8 +117,6 @@ class BladeStack extends Display {
         g.fillRect(0, getHeight() - 5, getWidth(), getHeight() / 25);
         g.fillRect(getWidth() - 4, 0, getWidth() / 40, getHeight());
     }
-
-    
 
     @Override
     protected void paintComponent(Graphics gr) {
